@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+#  profiles:
+#    active: local
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/toy
+    username: toyproject
+    password: epzk3201!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
