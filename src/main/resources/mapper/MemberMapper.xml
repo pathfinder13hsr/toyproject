@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ojt.toyproject.member.MemberMapper">
+
+    <insert id="insertMember"
+            parameterType="com.ojt.toyproject.member.MemberDto">
+        INSERT INTO member
+        VALUES (#{id}, #{name}, #{phone})
+    </insert>
+
+    <select id="getMemberList"
+            resultType="com.ojt.toyproject.member.MemberDto">
+        SELECT id, name, phone
+        FROM member
+    </select>
+
+    <update id="updateMember"
+            parameterType="com.ojt.toyproject.member.MemberDto">
+        UPDATE member
+        SET name = #{name},
+            phone = #{phone}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMember"
+            parameterType="String">
+        DELETE FROM member
+        WHERE id=#{id}
+    </delete>
+
+</mapper>

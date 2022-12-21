@@ -1,4 +1,4 @@
-package com.ojt.toyproject.controller;
+package com.ojt.toyproject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
