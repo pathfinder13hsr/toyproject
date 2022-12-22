@@ -1,21 +1,24 @@
 package com.ojt.toyproject.rent;
 
+import com.ojt.toyproject.book.BookDto;
+import com.ojt.toyproject.book.BookInfoDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @ToString
 public class RentDto {
     private Long seq;
-    private Long book_seq;
-    private String member_id;
-    private LocalDateTime rent_date;
-    private LocalDateTime due_date;
-    private LocalDateTime return_date;
-    private boolean is_returned;
+    private Long bookSeq;
+    private String memberId;
+    private LocalDate rentDate;
+    private LocalDate dueDate;
+    private LocalDate returnDate;
+    private String isReturned;
+
 
 }

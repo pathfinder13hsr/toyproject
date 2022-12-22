@@ -4,19 +4,19 @@
 <mapper namespace="com.ojt.toyproject.member.MemberMapper">
 
     <insert id="insertMember"
-            parameterType="com.ojt.toyproject.member.MemberDto">
+            parameterType="MemberDto">
         INSERT INTO member
         VALUES (#{id}, #{name}, #{phone})
     </insert>
 
     <select id="getMemberList"
-            resultType="com.ojt.toyproject.member.MemberDto">
+            resultType="MemberDto">
         SELECT id, name, phone
         FROM member
     </select>
 
     <update id="updateMember"
-            parameterType="com.ojt.toyproject.member.MemberDto">
+            parameterType="MemberDto">
         UPDATE member
         SET name = #{name},
             phone = #{phone}

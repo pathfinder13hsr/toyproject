@@ -1,10 +1,14 @@
 package com.ojt.toyproject.member;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
+@Qualifier("Impl1")
 public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
@@ -20,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberDto> getMemberList() {
         List<MemberDto> memberDtoList = memberMapper.getMemberList();
+        log.info("ServiceImpl1");
         return memberDtoList;
     }
 

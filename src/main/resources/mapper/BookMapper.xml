@@ -2,11 +2,117 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ojt.toyproject.book.BookMapper">
-
+    <!--도서정보 CRUD-->
     <insert id="insertBookInfo"
-            parameterType="com.ojt.toyproject.book.BookInfoDto">
+            parameterType="BookInfoDto">
         INSERT INTO book_info
         VALUES (#{isbn}, #{category}, #{title}, #{author}, #{publisher}, #{totalRentCount})
     </insert>
+
+    <select id="getBookInfoList"
+            resultType="BookInfoDto">
+        SELECT isbn, category, title, author, publisher, total_rent_count
+        FROM book_info
+    </select>
+
+    <update id="updateBookInfo"
+            parameterType="BookInfoDto">
+        UPDATE book_info
+        SET category = #{category},
+            title = #{title},
+            author = #{author},
+            publisher = #{publisher}
+        WHERE isbn = #{isbn}
+    </update>
+
+    <delete id="deleteBookInfo"
+            parameterType="Long">
+        DELETE FROM book_info
+        WHERE isbn=#{isbn}
+    </delete>
+
+
+    <!--  소장도서 CRUD  -->
+    <insert id="insertBook"
+            parameterType="BookDto">
+        INSERT INTO book (isbn, stock_num, stock_date, is_available)
+        VALUES (#{isbn}, #{stockNum}, #{stockDate}, #{isAvailable})
+    </insert>
+
+    <select id="getBookList"
+            resultType="BookDto">
+        SELECT  seq,
+                isbn,
+                stock_num AS stockNum,
+                stock_date AS stockDate,
+                is_available AS isAvailable
+        FROM book
+    </select>
+
+    <update id="updateBook"
+            parameterType="BookDto">
+        UPDATE book
+        SET isbn = #{isbn},
+            stock_num = #{stockNum},
+            stock_date = #{stockDate},
+            is_available = #{isAvailable}
+        WHERE seq = #{seq}
+    </update>
+
+    <delete id="deleteBook"
+            parameterType="Long">
+        DELETE FROM book
+        WHERE seq=#{seq}
+    </delete>
+
+
+    <!--  카테고리 CRUD  -->
+    <insert id="insertCategory"
+            parameterType="CategoryDto">
+        INSERT INTO category (category_name)
+        VALUES (#{categoryName})
+    </insert>
+
+    <select id="getCategoryList"
+            resultType="CategoryDto">
+        SELECT seq, category_name AS categoryName
+        FROM category
+    </select>
+
+    <update id="updateCategory"
+            parameterType="CategoryDto">
+        UPDATE category
+        SET category_name = #{categoryName}
+        WHERE seq = #{seq}
+    </update>
+
+    <delete id="deleteCategory"
+            parameterType="Long">
+        DELETE FROM category
+        WHERE seq=#{seq}
+    </delete>
+
+
+    <!-- book_info 테이블 total_rent_count + 1 -->
+    <update id="addRentCount"
+            parameterType="Long">
+        UPDATE book_info
+        SET total_rent_count = total_rent_count + 1
+        WHERE isbn = (SELECT isbn
+        FROM book
+        WHERE seq = #{bookSeq})
+    </update>
+    <!-- book 테이블 is_avilable 변경, 대여/반납시 모두 사용 -->
+    <update id="changeBookStatus"
+            parameterType="Long">
+        UPDATE book
+        SET is_available = (CASE
+                            WHEN is_available = 'Y'
+                            THEN 'N'
+                            WHEN is_available = 'N'
+                            THEN 'Y'
+                            END)
+        WHERE seq = (SELECT book_seq FROM rent WHERE seq = #{seq})
+    </update>
 
 </mapper>

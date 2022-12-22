@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- typeAlias : VO/DTO 클래스들의 풀클래스명을 단순한 클래스명으로 별칭을 등록할 수 있는 영역 -->
+    <typeAliases>
+        <typeAlias type="com.ojt.toyproject.member.MemberDto" alias="MemberDto"/>
+        <typeAlias type="com.ojt.toyproject.rent.RentDto" alias="RentDto"/>
+        <typeAlias type="com.ojt.toyproject.book.BookInfoDto" alias="BookInfoDto"/>
+        <typeAlias type="com.ojt.toyproject.book.BookDto" alias="BookDto"/>
+        <typeAlias type="com.ojt.toyproject.book.CategoryDto" alias="CategoryDto"/>
+
+    </typeAliases>
+
+
+</configuration>

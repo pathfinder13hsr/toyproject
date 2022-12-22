@@ -1,7 +1,8 @@
 package com.ojt.toyproject.book;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -22,71 +23,74 @@ public class BookController {
 
     //도서정보 조회
     @GetMapping("/book-info")
-    public String getBookInfoList(Model model){
-        return "??";//리턴값 무슨 데이터?
+    public List<BookInfoDto> getBookInfoList(){
+        List<BookInfoDto> bookInfoDtoList = bookService.getBookInfoList();
+        return bookInfoDtoList;
     }
 
     //도서정보 수정
     @PutMapping("/book-info")
-    public void updateBookInfo(BookInfoDto bookInfoDto){
-
+    public void updateBookInfo(@RequestBody BookInfoDto bookInfoDto){
+        bookService.updateBookInfo(bookInfoDto);
     }
 
     //도서정보 삭제
     @DeleteMapping("/book-info/{isbn}")
     public void deleteBookInfo(@PathVariable Long isbn){
-
+        bookService.deleteBookInfo(isbn);
     }
 
 
 
     //소장도서 등록
     @PostMapping("/books")
-    public void insertBook(BookDto bookDto){
-
+    public void insertBook(@RequestBody BookDto bookDto){
+        bookService.insertBook(bookDto);
     }
 
     //소장도서 조회
     @GetMapping("/books")
-    public String getBookList(Model model){
-        return "?"; //리턴값 무슨 데이터???
+    public List<BookDto> getBookList(){
+        List<BookDto> bookDtoList = bookService.getBookList();
+        return bookDtoList;
     }
 
     //소장도서 수정
     @PutMapping("/books")
-    public void updateBook(BookDto bookDto){
-
+    public void updateBook(@RequestBody BookDto bookDto){
+        bookService.updateBook(bookDto);
     }
 
     //소장도서 삭제
-    @DeleteMapping("/books")
-    public void deleteBook(BookDto bookDto){
-
+    @DeleteMapping("/books/{seq}")
+    public void deleteBook(@PathVariable Long seq){
+        bookService.deleteBook(seq);
     }
 
 
     //카테고리 등록
     @PostMapping("/category")
-    public void insertCategory(CategoryDto categoryDto){
-
+    public void insertCategory(@RequestBody CategoryDto categoryDto){
+        bookService.insertCategory(categoryDto);
     }
 
     //카테고리 조회
     @GetMapping("/category")
-    public String getCategoryList(Model model){
-        return "??";//리턴값??
+    public List<CategoryDto> getCategoryList(){
+        List<CategoryDto> categoryDtoList = bookService.getCategoryList();
+        return categoryDtoList;
     }
 
     //카테고리 수정
     @PutMapping("/category")
-    public void updateCategory(CategoryDto categoryDto){
-
+    public void updateCategory(@RequestBody CategoryDto categoryDto){
+        bookService.updateCategory(categoryDto);
     }
 
     //카테고리 삭제
-    @DeleteMapping("/category")
-    public void deleteCategory(CategoryDto categoryDto){
-
+    @DeleteMapping("/category/{seq}")
+    public void deleteCategory(@PathVariable Long seq){
+        bookService.deleteCategory(seq);
     }
 
 

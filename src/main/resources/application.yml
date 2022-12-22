@@ -21,4 +21,5 @@ spring:
       matching-strategy: ant_path_matcher
 
 mybatis:
+  config-location: classpath:config/mybatis-config.xml
   mapper-locations: mapper/*.xml
