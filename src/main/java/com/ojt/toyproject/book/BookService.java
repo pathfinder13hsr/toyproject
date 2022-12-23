@@ -1,14 +1,16 @@
 package com.ojt.toyproject.book;
 
+import com.ojt.toyproject.SearchDto;
 import com.ojt.toyproject.member.MemberDto;
 
 import java.util.List;
 
 public interface BookService {
     void insertBookInfo(BookInfoDto bookInfoDto);
-    List<BookInfoDto> getBookInfoList();
+    List<BookInfoDto> getBookInfoList(SearchDto searchDto);
     void updateBookInfo(BookInfoDto bookInfoDto);
     void deleteBookInfo(Long isbn);
+    void deleteBookInfo(List<Long> isbnList);
 
 
     void insertBook(BookDto bookDto);

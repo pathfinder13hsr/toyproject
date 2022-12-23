@@ -2,6 +2,7 @@ package com.ojt.toyproject.book;
 
 
 
+import com.ojt.toyproject.SearchDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<BookInfoDto> getBookInfoList() {
-        List<BookInfoDto> bookInfoDtoList = bookMapper.getBookInfoList();
+    public List<BookInfoDto> getBookInfoList(SearchDto searchDto) {
+        List<BookInfoDto> bookInfoDtoList = bookMapper.getBookInfoList(searchDto);
         return bookInfoDtoList;
     }
 
@@ -35,6 +36,13 @@ public class BookServiceImpl implements BookService{
     public void deleteBookInfo(Long isbn) {
         bookMapper.deleteBookInfo(isbn);
     }
+
+    @Override
+    public void deleteBookInfo(List<Long> isbnList) {
+        bookMapper.deleteBookInfos(isbnList);
+    }
+
+
 
 
     //소장도서 CRUD
@@ -58,6 +66,8 @@ public class BookServiceImpl implements BookService{
     public void deleteBook(Long seq) {
         bookMapper.deleteBook(seq);
     }
+
+
 
     //카테고리 CRUD
     @Override

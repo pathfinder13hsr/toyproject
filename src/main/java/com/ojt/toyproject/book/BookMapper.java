@@ -1,5 +1,6 @@
 package com.ojt.toyproject.book;
 
+import com.ojt.toyproject.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,9 +10,11 @@ public interface BookMapper {
 
     //도서정보 CRUD
     void insertBookInfo(BookInfoDto bookInfoDto);
-    List<BookInfoDto> getBookInfoList();
+    List<BookInfoDto> getBookInfoList(SearchDto searchDto);
     void updateBookInfo(BookInfoDto bookInfoDto);
     void deleteBookInfo(Long isbn);
+    void deleteBookInfos(List<Long> isbnList);
+
 
     //소장도서 CRUD
     void insertBook(BookDto bookDto);

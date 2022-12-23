@@ -10,9 +10,15 @@
     </insert>
 
     <select id="getMemberList"
+            parameterType="SearchDto"
             resultType="MemberDto">
         SELECT id, name, phone
         FROM member
+        <where>
+            <if test="searchType != null and keyword != null">
+                ${searchType} LIKE CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
     </select>
 
     <update id="updateMember"
@@ -27,6 +33,15 @@
             parameterType="String">
         DELETE FROM member
         WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteMembers"
+            parameterType="List">
+        DELETE FROM member
+        WHERE id IN
+        <foreach collection="list" item="idList" open="(" close=")" separator=",">
+            #{idList}
+        </foreach>
     </delete>
 
 </mapper>

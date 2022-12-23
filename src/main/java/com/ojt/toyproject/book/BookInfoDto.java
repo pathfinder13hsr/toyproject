@@ -15,4 +15,8 @@ public class BookInfoDto {
     private String publisher;
     private Long totalRentCount;
 
+
+    private int totalStockCount;
+    private int rentCount;
+    private int availableCount;
 }

@@ -19,4 +19,22 @@
         WHERE seq = #{seq}
     </update>
 
+
+    <!--  id로 rent 내역 조회(대출중)  -->
+    <select id="getOnesRentList"
+            parameterType="String"
+            resultType="RentDto">
+        SELECT seq, book_seq, member_id, rent_date, due_date, return_date, is_returned
+        FROM rent
+        WHERE member_id = #{id} AND is_returned = 'N'
+    </select>
+
+    <!--  id로 rent 내역 조회(반납완료)  -->
+    <select id="getOnesReturnList"
+            parameterType="String"
+            resultType="RentDto">
+        SELECT seq, book_seq, member_id, rent_date, due_date, return_date, is_returned
+        FROM rent
+        WHERE member_id = #{id} AND is_returned = 'Y'
+    </select>
 </mapper>

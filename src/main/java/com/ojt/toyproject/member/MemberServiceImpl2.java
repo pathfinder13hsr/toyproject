@@ -1,5 +1,6 @@
 package com.ojt.toyproject.member;
 
+import com.ojt.toyproject.SearchDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -25,7 +26,7 @@ public class MemberServiceImpl2 implements MemberService{
     }
 
     @Override
-    public List<MemberDto> getMemberList() {
+    public List<MemberDto> getMemberList(SearchDto searchDto) {
         List<MemberDto> memberDtoList = memberMapper2.getMemberList();
         log.info("ServiceImpl2");
         return memberDtoList;
@@ -39,5 +40,10 @@ public class MemberServiceImpl2 implements MemberService{
     @Override
     public void deleteMember(String id) {
         memberMapper2.deleteMember(id);
+    }
+
+    @Override
+    public void deleteMember(List<String> idList) {
+
     }
 }

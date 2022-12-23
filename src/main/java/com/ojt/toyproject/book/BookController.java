@@ -1,5 +1,6 @@
 package com.ojt.toyproject.book;
 
+import com.ojt.toyproject.SearchDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class BookController {
 
     //도서정보 조회
     @GetMapping("/book-info")
-    public List<BookInfoDto> getBookInfoList(){
-        List<BookInfoDto> bookInfoDtoList = bookService.getBookInfoList();
+    public List<BookInfoDto> getBookInfoList(@RequestBody(required = false) SearchDto searchDto){
+        List<BookInfoDto> bookInfoDtoList = bookService.getBookInfoList(searchDto);
         return bookInfoDtoList;
     }
 
@@ -38,6 +39,12 @@ public class BookController {
     @DeleteMapping("/book-info/{isbn}")
     public void deleteBookInfo(@PathVariable Long isbn){
         bookService.deleteBookInfo(isbn);
+    }
+
+    @DeleteMapping("/book-info")
+    public void deleteBookInfo(@RequestBody DeleteReq deleteReq){
+        List<Long> isbnList = deleteReq.getIsbnList();
+        bookService.deleteBookInfo(isbnList);
     }
 
 

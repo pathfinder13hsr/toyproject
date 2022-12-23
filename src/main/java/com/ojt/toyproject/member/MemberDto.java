@@ -11,4 +11,6 @@ public class MemberDto {
     private String id;
     private String name;
     private String phone;
+
+
 }

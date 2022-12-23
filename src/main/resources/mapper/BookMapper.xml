@@ -10,9 +10,25 @@
     </insert>
 
     <select id="getBookInfoList"
+            parameterType="SearchDto"
             resultType="BookInfoDto">
-        SELECT isbn, category, title, author, publisher, total_rent_count
-        FROM book_info
+        SELECT i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
+                COUNT(*) AS total_stock_count,
+                COUNT(CASE WHEN b.is_available = 'N' THEN 1 END) AS rent_count,
+                COUNT(CASE WHEN b.is_available = 'Y' THEN 1 END) AS available_count
+        FROM book b
+        LEFT JOIN book_info i
+        ON b.isbn = i.isbn
+        <where>
+            <if test="searchType != null and keyword != null">
+                ${searchType} LIKE CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+        GROUP BY b.isbn
+        <if test="order != null">
+            ORDER BY i.total_rent_count ${order}
+        </if>
+
     </select>
 
     <update id="updateBookInfo"
@@ -31,6 +47,15 @@
         WHERE isbn=#{isbn}
     </delete>
 
+    <delete id="deleteBookInfos"
+            parameterType="List">
+        DELETE FROM book_info
+        WHERE isbn IN
+        <foreach collection="list" item="isbnList" open="(" close=")" separator=",">
+            #{isbnList}
+        </foreach>
+    </delete>
+
 
     <!--  소장도서 CRUD  -->
     <insert id="insertBook"
@@ -43,9 +68,9 @@
             resultType="BookDto">
         SELECT  seq,
                 isbn,
-                stock_num AS stockNum,
-                stock_date AS stockDate,
-                is_available AS isAvailable
+                stock_num,
+                stock_date,
+                is_available
         FROM book
     </select>
 
@@ -75,7 +100,7 @@
 
     <select id="getCategoryList"
             resultType="CategoryDto">
-        SELECT seq, category_name AS categoryName
+        SELECT seq, category_name
         FROM category
     </select>
 

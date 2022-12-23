@@ -3,6 +3,10 @@ package com.ojt.toyproject.rent;
 import com.ojt.toyproject.book.BookService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class RentServiceImpl implements RentService{
     private final RentMapper rentMapper;
@@ -23,5 +27,15 @@ public class RentServiceImpl implements RentService{
     public void returnBook(Long seq) {
         rentMapper.updateRent(seq);
         bookService.changeBookStatus(seq);
+    }
+
+    @Override
+    public Map<String, List<RentDto>> getRentListById(String id) {
+        Map<String, List<RentDto>> rentListMap = new HashMap<>();
+        List<RentDto> rentList = rentMapper.getOnesRentList(id);
+        List<RentDto> returnList = rentMapper.getOnesReturnList(id);
+        rentListMap.put("대출중", rentList);
+        rentListMap.put("반납완료", returnList);
+        return rentListMap;
     }
 }

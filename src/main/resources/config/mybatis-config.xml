@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
 
     <!-- typeAlias : VO/DTO 클래스들의 풀클래스명을 단순한 클래스명으로 별칭을 등록할 수 있는 영역 -->
     <typeAliases>
@@ -11,8 +14,11 @@
         <typeAlias type="com.ojt.toyproject.book.BookInfoDto" alias="BookInfoDto"/>
         <typeAlias type="com.ojt.toyproject.book.BookDto" alias="BookDto"/>
         <typeAlias type="com.ojt.toyproject.book.CategoryDto" alias="CategoryDto"/>
+        <typeAlias type="com.ojt.toyproject.SearchDto" alias="SearchDto"/>
 
     </typeAliases>
+
+
 
 
 </configuration>
