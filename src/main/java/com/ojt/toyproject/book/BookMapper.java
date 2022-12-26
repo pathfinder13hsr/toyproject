@@ -11,6 +11,7 @@ public interface BookMapper {
     //도서정보 CRUD
     void insertBookInfo(BookInfoDto bookInfoDto);
     List<BookInfoDto> getBookInfoList(SearchDto searchDto);
+    BookInfoDto getBookInfoByIsbn(Long isbn);
     void updateBookInfo(BookInfoDto bookInfoDto);
     void deleteBookInfo(Long isbn);
     void deleteBookInfos(List<Long> isbnList);
@@ -18,7 +19,7 @@ public interface BookMapper {
 
     //소장도서 CRUD
     void insertBook(BookDto bookDto);
-    List<BookDto> getBookList();
+    List<BookDto> getBookList(SearchDto searchDto);
     void updateBook(BookDto bookDto);
     void deleteBook(Long seq);
 

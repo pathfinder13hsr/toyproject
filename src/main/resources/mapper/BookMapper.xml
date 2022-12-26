@@ -28,7 +28,25 @@
         <if test="order != null">
             ORDER BY i.total_rent_count ${order}
         </if>
+        LIMIT
+            <if test="pagination.limitStart != null and recordSize != null">
+                ${pagination.limitStart}, ${recordSize}
+            </if>
 
+    </select>
+
+    <select id="getBookInfoByIsbn"
+            parameterType="Long"
+            resultType="BookInfoDto">
+        SELECT i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
+                COUNT(*) AS total_stock_count,
+                COUNT(CASE WHEN b.is_available = 'N' THEN 1 END) AS rent_count,
+                COUNT(CASE WHEN b.is_available = 'Y' THEN 1 END) AS available_count
+        FROM book b
+        LEFT JOIN book_info i
+        ON b.isbn = i.isbn
+        GROUP BY b.isbn
+        HAVING i.isbn = ${isbn}
     </select>
 
     <update id="updateBookInfo"
@@ -65,6 +83,7 @@
     </insert>
 
     <select id="getBookList"
+            parameterType="SearchDto"
             resultType="BookDto">
         SELECT  seq,
                 isbn,
@@ -72,6 +91,11 @@
                 stock_date,
                 is_available
         FROM book
+        <where>
+            <if test="searchType != null and keyword != null">
+                ${searchType} = #{keyword}
+            </if>
+        </where>
     </select>
 
     <update id="updateBook"

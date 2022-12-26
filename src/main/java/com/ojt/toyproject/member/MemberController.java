@@ -36,7 +36,6 @@ public class MemberController {
     @GetMapping
     public List<MemberDto> getMemberList(@RequestBody(required = false) SearchDto searchDto){
         List<MemberDto> memberDtoList = memberService.getMemberList(searchDto);
-        log.info("memberDtoList"+memberDtoList);
         return memberDtoList;
     }
 

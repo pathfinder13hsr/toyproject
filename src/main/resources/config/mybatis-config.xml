@@ -15,6 +15,7 @@
         <typeAlias type="com.ojt.toyproject.book.BookDto" alias="BookDto"/>
         <typeAlias type="com.ojt.toyproject.book.CategoryDto" alias="CategoryDto"/>
         <typeAlias type="com.ojt.toyproject.SearchDto" alias="SearchDto"/>
+        <typeAlias type="com.ojt.toyproject.booking.BookingDto" alias="BookingDto"/>
 
     </typeAliases>
 

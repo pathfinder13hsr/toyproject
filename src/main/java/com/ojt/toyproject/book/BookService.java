@@ -9,12 +9,13 @@ public interface BookService {
     void insertBookInfo(BookInfoDto bookInfoDto);
     List<BookInfoDto> getBookInfoList(SearchDto searchDto);
     void updateBookInfo(BookInfoDto bookInfoDto);
+    int getRentCountByIsbn(Long isbn);
+    int getAvailableCountByIsbn(Long isbn);
     void deleteBookInfo(Long isbn);
     void deleteBookInfo(List<Long> isbnList);
 
-
     void insertBook(BookDto bookDto);
-    List<BookDto> getBookList();
+    List<BookDto> getBookList(SearchDto searchDto);
     void updateBook(BookDto bookDto);
     void deleteBook(Long seq);
 

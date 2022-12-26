@@ -22,7 +22,7 @@ public class BookController {
         bookService.insertBookInfo(bookInfoDto);
     }
 
-    //도서정보 조회
+    //도서정보 조회(모든 도서 정보)
     @GetMapping("/book-info")
     public List<BookInfoDto> getBookInfoList(@RequestBody(required = false) SearchDto searchDto){
         List<BookInfoDto> bookInfoDtoList = bookService.getBookInfoList(searchDto);
@@ -57,8 +57,8 @@ public class BookController {
 
     //소장도서 조회
     @GetMapping("/books")
-    public List<BookDto> getBookList(){
-        List<BookDto> bookDtoList = bookService.getBookList();
+    public List<BookDto> getBookList(@RequestBody(required = false) SearchDto searchDto){
+        List<BookDto> bookDtoList = bookService.getBookList(searchDto);
         return bookDtoList;
     }
 

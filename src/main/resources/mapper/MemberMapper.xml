@@ -19,7 +19,22 @@
                 ${searchType} LIKE CONCAT('%',#{keyword},'%')
             </if>
         </where>
+        ORDER BY CAST(substr(id,4) AS SIGNED)
+        LIMIT
+            <if test="pagination.limitStart != null and recordSize != null">
+                ${pagination.limitStart}, ${recordSize}
+            </if>
+
+
     </select>
+
+    <select id="countTotalMembers"
+            resultType="int">
+        SELECT COUNT(*)
+        FROM member
+    </select>
+
+
 
     <update id="updateMember"
             parameterType="MemberDto">

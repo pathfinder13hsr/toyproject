@@ -1,5 +1,6 @@
 package com.ojt.toyproject.member;
 
+import com.ojt.toyproject.Pagination;
 import com.ojt.toyproject.SearchDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,8 +25,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<MemberDto> getMemberList(SearchDto searchDto) {
+        if (searchDto.getPage() == null ){
+            searchDto.setPage(1);
+        }
+        if (searchDto.getRecordSize() == null){
+            searchDto.setRecordSize(10);
+        }
+        Pagination pagination = new Pagination(searchDto);
+        searchDto.setPagination(pagination);
         List<MemberDto> memberDtoList = memberMapper.getMemberList(searchDto);
-        log.info("ServiceImpl1");
+
         return memberDtoList;
     }
 

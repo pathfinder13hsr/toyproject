@@ -25,7 +25,7 @@ public class RentServiceImpl implements RentService{
 
     @Override
     public void returnBook(Long seq) {
-        rentMapper.updateRent(seq);
+        rentMapper.updateRent(seq); // rent 테이블 반납완료로 변경
         bookService.changeBookStatus(seq);
     }
 
