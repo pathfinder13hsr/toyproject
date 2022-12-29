@@ -1,5 +1,6 @@
 package com.ojt.toyproject.member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,4 +14,29 @@ public class MemberDto {
     private String phone;
 
 
+    @Builder(builderClassName = "byEntity", builderMethodName = "byEntity")
+    public MemberDto(MemberEntity memberEntity) {
+        this.id = memberEntity.getMemberId();
+        this.name = memberEntity.getName();
+        this.phone = memberEntity.getPhone();
+    }
+
+
+    public MemberEntity byInsert() {
+        return MemberEntity
+                .builder()
+                .id(this.id)
+                .name(this.name)
+                .phone(this.phone)
+                .build();
+    }
+
+    public MemberEntity byUpdate(MemberEntity memberEntity) {
+        return MemberEntity
+                .builder()
+                .id(memberEntity.getMemberId())
+                .name(this.name)
+                .phone(this.phone)
+                .build();
+    }
 }

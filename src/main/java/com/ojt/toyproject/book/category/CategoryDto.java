@@ -1,4 +1,4 @@
-package com.ojt.toyproject.book;
+package com.ojt.toyproject.book.category;
 
 import lombok.Getter;
 import lombok.Setter;

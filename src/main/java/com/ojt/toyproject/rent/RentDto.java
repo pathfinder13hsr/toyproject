@@ -1,7 +1,5 @@
 package com.ojt.toyproject.rent;
 
-import com.ojt.toyproject.book.BookDto;
-import com.ojt.toyproject.book.BookInfoDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,4 +19,14 @@ public class RentDto {
     private String isReturned;
 
 
+    public RentEntity byInsert() {
+        return RentEntity
+                .builder()
+                .bookSeq(this.bookSeq)
+                .memberId(this.memberId)
+                .rentDate(LocalDate.now())
+                .dueDate(LocalDate.now().plusDays(7))
+                .isReturned("N")
+                .build();
+    }
 }

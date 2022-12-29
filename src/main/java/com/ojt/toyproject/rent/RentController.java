@@ -1,14 +1,17 @@
 package com.ojt.toyproject.rent;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
 public class RentController {
     private final RentService rentService;
+    private final RentService rentService3;
 
-    public RentController(RentService rentService) {
+    public RentController(@Qualifier("Impl1") RentService rentService, @Qualifier("Impl3_JPA") RentService rentService3) {
         this.rentService = rentService;
+        this.rentService3 = rentService3;
     }
 
     //도서 대출

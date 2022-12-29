@@ -13,9 +13,9 @@
             parameterType="SearchDto"
             resultType="BookInfoDto">
         SELECT i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
-                COUNT(*) AS total_stock_count,
-                COUNT(CASE WHEN b.is_available = 'N' THEN 1 END) AS rent_count,
-                COUNT(CASE WHEN b.is_available = 'Y' THEN 1 END) AS available_count
+        COUNT(*) AS total_stock_count,
+        COUNT(CASE WHEN b.is_in_stock = 'N' THEN 1 END) AS rent_count,
+        COUNT(CASE WHEN b.is_in_stock = 'Y' THEN 1 END) AS in_stock_count
         FROM book b
         LEFT JOIN book_info i
         ON b.isbn = i.isbn
@@ -29,25 +29,37 @@
             ORDER BY i.total_rent_count ${order}
         </if>
         LIMIT
-            <if test="pagination.limitStart != null and recordSize != null">
-                ${pagination.limitStart}, ${recordSize}
-            </if>
+        <if test="pagination.limitStart != null and recordSize != null">
+            ${pagination.limitStart}, ${recordSize}
+        </if>
 
     </select>
 
     <select id="getBookInfoByIsbn"
             parameterType="Long"
             resultType="BookInfoDto">
-        SELECT i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
-                COUNT(*) AS total_stock_count,
-                COUNT(CASE WHEN b.is_available = 'N' THEN 1 END) AS rent_count,
-                COUNT(CASE WHEN b.is_available = 'Y' THEN 1 END) AS available_count
-        FROM book b
+        select
+            i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
+            sum(rent) as rent_count,
+            sum(in_stock) as in_stock_count,
+            (SELECT COUNT(*) FROM booking WHERE isbn=${isbn} AND is_rented = 'N') AS booking_count
+        from (SELECT i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count,
+                -- COUNT(*) AS total_stock_count,
+        case
+            when is_in_stock = 'N' then 1
+            else 0
+        AS rent,
+        case
+            when is_in_stock = 'Y' then 1
+            else 0
+        AS in_stock
+        FROM (SELECT * FROM book WHERE isbn=${isbn}) b
         LEFT JOIN book_info i
-        ON b.isbn = i.isbn
-        GROUP BY b.isbn
-        HAVING i.isbn = ${isbn}
+        ON b.isbn = i.isbn) a
+        group by i.isbn, i.category, i.title, i.author, i.publisher, i.total_rent_count
     </select>
+
+
 
     <update id="updateBookInfo"
             parameterType="BookInfoDto">
@@ -78,8 +90,8 @@
     <!--  소장도서 CRUD  -->
     <insert id="insertBook"
             parameterType="BookDto">
-        INSERT INTO book (isbn, stock_num, stock_date, is_available)
-        VALUES (#{isbn}, #{stockNum}, #{stockDate}, #{isAvailable})
+        INSERT INTO book (isbn, stock_num, stock_date, is_in_stock)
+        VALUES (#{isbn}, #{stockNum}, #{stockDate}, #{isInStock})
     </insert>
 
     <select id="getBookList"
@@ -89,7 +101,7 @@
                 isbn,
                 stock_num,
                 stock_date,
-                is_available
+                is_in_stock
         FROM book
         <where>
             <if test="searchType != null and keyword != null">
@@ -98,13 +110,14 @@
         </where>
     </select>
 
+
     <update id="updateBook"
             parameterType="BookDto">
         UPDATE book
         SET isbn = #{isbn},
             stock_num = #{stockNum},
             stock_date = #{stockDate},
-            is_available = #{isAvailable}
+            is_in_stock = #{isInStock}
         WHERE seq = #{seq}
     </update>
 
@@ -151,17 +164,21 @@
         FROM book
         WHERE seq = #{bookSeq})
     </update>
-    <!-- book 테이블 is_avilable 변경, 대여/반납시 모두 사용 -->
-    <update id="changeBookStatus"
+
+    <!-- book 테이블 is_in_stock Y로 변경 -->
+    <update id="changeBookStatusToY"
             parameterType="Long">
         UPDATE book
-        SET is_available = (CASE
-                            WHEN is_available = 'Y'
-                            THEN 'N'
-                            WHEN is_available = 'N'
-                            THEN 'Y'
-                            END)
-        WHERE seq = (SELECT book_seq FROM rent WHERE seq = #{seq})
+        SET is_in_stock = 'Y'
+        WHERE seq = #{seq}
+    </update>
+
+    <!-- book 테이블 is_in_stock N으로 변경 -->
+    <update id="changeBookStatusToN"
+            parameterType="Long">
+        UPDATE book
+        SET is_in_stock = 'N'
+        WHERE seq = #{seq}
     </update>
 
 </mapper>

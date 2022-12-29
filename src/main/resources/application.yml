@@ -11,14 +11,14 @@ spring:
     password: epzk3201!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#  jpa:
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-#    open-in-view: false
-#    properties:
-#      hibernate:
-#        show-sql: true
-#        format_sql: true
-#        ddl-auto: none
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        ddl-auto: none
 
   thymeleaf:
     prefix: classpath:templates/

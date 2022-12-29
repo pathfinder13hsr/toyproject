@@ -25,4 +25,25 @@
             </if>
         </where>
     </select>
+
+    <select id="getBookingRownum"
+            parameterType="Long"
+            resultType="BookingDto">
+        SELECT seq, isbn, member_id, booking_datetime, is_rented, row_number() over(order by booking_datetime) as rownum
+        FROM booking
+        WHERE isbn=#{isbn} AND is_rented = 'N'
+    </select>
+
+    <update id="updateIsRented"
+            parameterType="Long">
+        UPDATE booking
+        SET is_rented = 'Y'
+        WHERE seq = #{seq}
+    </update>
+
+    <delete id="deleteBooking"
+            parameterType="Long">
+        DELETE FROM booking
+        WHERE seq = #{seq}
+    </delete>
 </mapper>

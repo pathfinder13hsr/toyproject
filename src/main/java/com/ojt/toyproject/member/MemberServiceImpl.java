@@ -14,6 +14,8 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
+    // repository extends JPARepository
+
     public MemberServiceImpl(MemberMapper memberMapper) {
         this.memberMapper = memberMapper;
     }

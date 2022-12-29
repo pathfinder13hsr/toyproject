@@ -1,6 +1,10 @@
 package com.ojt.toyproject.book;
 
 import com.ojt.toyproject.SearchDto;
+import com.ojt.toyproject.book.book.BookDto;
+import com.ojt.toyproject.book.bookInfo.BookInfoDto;
+import com.ojt.toyproject.book.category.CategoryDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,9 +13,11 @@ import java.util.List;
 @RequestMapping
 public class BookController {
     private final BookService bookService;
+    private final BookService bookService3;
 
-    public BookController(BookService bookService) {
+    public BookController(@Qualifier("Impl1") BookService bookService, @Qualifier("Impl3_JPA") BookService bookService3) {
         this.bookService = bookService;
+        this.bookService3 = bookService3;
     }
 
     //도서정보 : book_info, 소장도서 : book, 도서카테고리 : category ->세 테이블 CRUD
@@ -19,13 +25,13 @@ public class BookController {
     //도서정보 등록
     @PostMapping("/book-info")
     public void insertBookInfo(@RequestBody BookInfoDto bookInfoDto){
-        bookService.insertBookInfo(bookInfoDto);
+        bookService3.insertBookInfo(bookInfoDto);
     }
 
     //도서정보 조회(모든 도서 정보)
     @GetMapping("/book-info")
     public List<BookInfoDto> getBookInfoList(@RequestBody(required = false) SearchDto searchDto){
-        List<BookInfoDto> bookInfoDtoList = bookService.getBookInfoList(searchDto);
+        List<BookInfoDto> bookInfoDtoList = bookService3.getBookInfoList(searchDto);
         return bookInfoDtoList;
     }
 
@@ -38,13 +44,13 @@ public class BookController {
     //도서정보 삭제
     @DeleteMapping("/book-info/{isbn}")
     public void deleteBookInfo(@PathVariable Long isbn){
-        bookService.deleteBookInfo(isbn);
+        bookService3.deleteBookInfo(isbn);
     }
 
     @DeleteMapping("/book-info")
     public void deleteBookInfo(@RequestBody DeleteReq deleteReq){
         List<Long> isbnList = deleteReq.getIsbnList();
-        bookService.deleteBookInfo(isbnList);
+        bookService3.deleteBookInfo(isbnList);
     }
 
 
@@ -52,13 +58,13 @@ public class BookController {
     //소장도서 등록
     @PostMapping("/books")
     public void insertBook(@RequestBody BookDto bookDto){
-        bookService.insertBook(bookDto);
+        bookService3.insertBook(bookDto);
     }
 
     //소장도서 조회
     @GetMapping("/books")
     public List<BookDto> getBookList(@RequestBody(required = false) SearchDto searchDto){
-        List<BookDto> bookDtoList = bookService.getBookList(searchDto);
+        List<BookDto> bookDtoList = bookService3.getBookList(searchDto);
         return bookDtoList;
     }
 

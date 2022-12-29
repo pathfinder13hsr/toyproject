@@ -11,9 +11,9 @@
     <typeAliases>
         <typeAlias type="com.ojt.toyproject.member.MemberDto" alias="MemberDto"/>
         <typeAlias type="com.ojt.toyproject.rent.RentDto" alias="RentDto"/>
-        <typeAlias type="com.ojt.toyproject.book.BookInfoDto" alias="BookInfoDto"/>
-        <typeAlias type="com.ojt.toyproject.book.BookDto" alias="BookDto"/>
-        <typeAlias type="com.ojt.toyproject.book.CategoryDto" alias="CategoryDto"/>
+        <typeAlias type="com.ojt.toyproject.book.bookInfo.BookInfoDto" alias="BookInfoDto"/>
+        <typeAlias type="com.ojt.toyproject.book.book.BookDto" alias="BookDto"/>
+        <typeAlias type="com.ojt.toyproject.book.category.CategoryDto" alias="CategoryDto"/>
         <typeAlias type="com.ojt.toyproject.SearchDto" alias="SearchDto"/>
         <typeAlias type="com.ojt.toyproject.booking.BookingDto" alias="BookingDto"/>
 

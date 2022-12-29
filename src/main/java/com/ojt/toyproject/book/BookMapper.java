@@ -1,6 +1,9 @@
 package com.ojt.toyproject.book;
 
 import com.ojt.toyproject.SearchDto;
+import com.ojt.toyproject.book.book.BookDto;
+import com.ojt.toyproject.book.bookInfo.BookInfoDto;
+import com.ojt.toyproject.book.category.CategoryDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -31,5 +34,6 @@ public interface BookMapper {
 
     //대여,반납시 상태 변경
     void addRentCount(Long bookSeq);
-    void changeBookStatus(Long seq);
+    void changeBookStatusToY(Long seq);
+    void changeBookStatusToN(Long seq);
 }

@@ -22,4 +22,6 @@ public class SearchDto {
 //        this.page = 1;
 //        this.recordSize = 10;
 //    }
+
+
 }

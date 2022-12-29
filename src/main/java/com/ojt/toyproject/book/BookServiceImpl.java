@@ -4,13 +4,18 @@ package com.ojt.toyproject.book;
 
 import com.ojt.toyproject.Pagination;
 import com.ojt.toyproject.SearchDto;
+import com.ojt.toyproject.book.book.BookDto;
+import com.ojt.toyproject.book.bookInfo.BookInfoDto;
+import com.ojt.toyproject.book.category.CategoryDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@Qualifier("Impl1")
 public class BookServiceImpl implements BookService{
     private final BookMapper bookMapper;
 
@@ -26,6 +31,12 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public List<BookInfoDto> getBookInfoList(SearchDto searchDto) {
+        if (searchDto.getPage() == null ){
+            searchDto.setPage(1);
+        }
+        if (searchDto.getRecordSize() == null){
+            searchDto.setRecordSize(10);
+        }
         Pagination pagination = new Pagination(searchDto);
         searchDto.setPagination(pagination);
         List<BookInfoDto> bookInfoDtoList = bookMapper.getBookInfoList(searchDto);
@@ -45,9 +56,15 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public int getAvailableCountByIsbn(Long isbn) {
-        int availableCount = bookMapper.getBookInfoByIsbn(isbn).getAvailableCount();
-        return availableCount;
+    public int getInStockCountByIsbn(Long isbn) {
+        int inStockCount = bookMapper.getBookInfoByIsbn(isbn).getInStockCount();
+        return inStockCount;
+    }
+
+    @Override
+    public int getBookingCountByIsbn(Long isbn) {
+        int bookingCount = bookMapper.getBookInfoByIsbn(isbn).getBookingCount();
+        return bookingCount;
     }
 
     @Override
@@ -129,7 +146,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public void changeBookStatus(Long seq) {
-        bookMapper.changeBookStatus(seq);
+    public void changeBookStatusToY(Long seq) {
+        bookMapper.changeBookStatusToY(seq);
+    }
+    @Override
+    public void changeBookStatusToN(Long seq) {
+        bookMapper.changeBookStatusToN(seq);
     }
 }
