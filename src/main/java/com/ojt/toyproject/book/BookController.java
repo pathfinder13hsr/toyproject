@@ -38,7 +38,7 @@ public class BookController {
     //도서정보 수정
     @PutMapping("/book-info")
     public void updateBookInfo(@RequestBody BookInfoDto bookInfoDto){
-        bookService.updateBookInfo(bookInfoDto);
+        bookService3.updateBookInfo(bookInfoDto);
     }
 
     //도서정보 삭제
@@ -71,39 +71,39 @@ public class BookController {
     //소장도서 수정
     @PutMapping("/books")
     public void updateBook(@RequestBody BookDto bookDto){
-        bookService.updateBook(bookDto);
+        bookService3.updateBook(bookDto);
     }
 
     //소장도서 삭제
     @DeleteMapping("/books/{seq}")
     public void deleteBook(@PathVariable Long seq){
-        bookService.deleteBook(seq);
+        bookService3.deleteBook(seq);
     }
 
 
     //카테고리 등록
     @PostMapping("/category")
     public void insertCategory(@RequestBody CategoryDto categoryDto){
-        bookService.insertCategory(categoryDto);
+        bookService3.insertCategory(categoryDto);
     }
 
     //카테고리 조회
     @GetMapping("/category")
     public List<CategoryDto> getCategoryList(){
-        List<CategoryDto> categoryDtoList = bookService.getCategoryList();
+        List<CategoryDto> categoryDtoList = bookService3.getCategoryList();
         return categoryDtoList;
     }
 
     //카테고리 수정
     @PutMapping("/category")
     public void updateCategory(@RequestBody CategoryDto categoryDto){
-        bookService.updateCategory(categoryDto);
+        bookService3.updateCategory(categoryDto);
     }
 
     //카테고리 삭제
     @DeleteMapping("/category/{seq}")
     public void deleteCategory(@PathVariable Long seq){
-        bookService.deleteCategory(seq);
+        bookService3.deleteCategory(seq);
     }
 
 

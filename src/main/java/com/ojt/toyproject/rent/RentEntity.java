@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
@@ -19,6 +21,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class RentEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
     private Long bookSeq;
     private String memberId;

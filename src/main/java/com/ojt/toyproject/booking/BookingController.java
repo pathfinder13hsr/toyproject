@@ -20,13 +20,13 @@ public class BookingController {
     //예약하기(Booking 테이블 insert)
     @PostMapping
     public void makeBooking(@RequestBody BookingDto bookingDto) {
-        bookingService.makeBooking(bookingDto);
+        bookingService3.makeBooking(bookingDto);
     }
 
     //예약 리스트 조회
     @GetMapping
     public List<BookingDto> getBookingList(@RequestBody(required = false) SearchDto searchDto){
-        List<BookingDto> bookingDtoList = bookingService.getBookingList(searchDto);
+        List<BookingDto> bookingDtoList = bookingService3.getBookingList(searchDto);
         return bookingDtoList;
     }
 }

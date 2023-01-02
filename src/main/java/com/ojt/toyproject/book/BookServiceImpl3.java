@@ -5,11 +5,10 @@ import com.ojt.toyproject.book.book.BookDto;
 import com.ojt.toyproject.book.book.BookEntity;
 import com.ojt.toyproject.book.book.BookRepository;
 import com.ojt.toyproject.book.book.BookRepositorySupport;
-import com.ojt.toyproject.book.bookInfo.BookInfoDto;
-import com.ojt.toyproject.book.bookInfo.BookInfoEntity;
-import com.ojt.toyproject.book.bookInfo.BookInfoRepository;
-import com.ojt.toyproject.book.bookInfo.BookInfoSpec;
+import com.ojt.toyproject.book.bookInfo.*;
 import com.ojt.toyproject.book.category.CategoryDto;
+import com.ojt.toyproject.book.category.CategoryRepository;
+import com.ojt.toyproject.book.category.CategotyEntity;
 import com.ojt.toyproject.booking.BookingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,15 +27,19 @@ import java.util.List;
 @Slf4j
 public class BookServiceImpl3 implements BookService {
     private final BookInfoRepository bookInfoRepository;
+    private final BookInfoRepositorySupport bookInfoRepositorySupport;
     private final BookingRepository bookingRepository;
     private final BookRepository bookRepository;
     private final BookRepositorySupport bookRepositorySupport; //queryDsl 구현
+    private final CategoryRepository categoryRepository;
 
-    public BookServiceImpl3(BookInfoRepository bookInfoRepository, BookingRepository bookingRepository, BookRepository bookRepository, BookRepositorySupport bookRepositorySupport) {
+    public BookServiceImpl3(BookInfoRepository bookInfoRepository, BookInfoRepositorySupport bookInfoRepositorySupport, BookingRepository bookingRepository, BookRepository bookRepository, BookRepositorySupport bookRepositorySupport, CategoryRepository categoryRepository) {
         this.bookInfoRepository = bookInfoRepository;
+        this.bookInfoRepositorySupport = bookInfoRepositorySupport;
         this.bookingRepository = bookingRepository;
         this.bookRepository = bookRepository;
         this.bookRepositorySupport = bookRepositorySupport;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -172,28 +175,35 @@ public class BookServiceImpl3 implements BookService {
 
     @Override
     public void insertCategory(CategoryDto categoryDto) {
-
+        categoryRepository.save(categoryDto.byInsert());
     }
 
     @Override
     public List<CategoryDto> getCategoryList() {
-        return null;
+        List<CategotyEntity> categotyEntityList = categoryRepository.findAll();
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
+        for (CategotyEntity categotyEntity : categotyEntityList) {
+            CategoryDto categoryDto = CategoryDto.byEntity().categotyEntity(categotyEntity).build();
+            categoryDtoList.add(categoryDto);
+        }
+        return categoryDtoList;
     }
 
     @Override
     public void updateCategory(CategoryDto categoryDto) {
-
+        CategotyEntity categotyEntity = categoryRepository.findBySeq(categoryDto.getSeq());
+        categoryRepository.save(categoryDto.byUpdate(categotyEntity));
     }
 
     @Override
     public void deleteCategory(Long seq) {
-
+        categoryRepository.deleteById(seq);
     }
 
 
     @Override
     public void addRentCount(Long bookSeq) {
-
+        bookInfoRepositorySupport.addRentCount(bookSeq);
     }
 
     @Override

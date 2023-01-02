@@ -1,13 +1,14 @@
 package com.ojt.toyproject.booking;
 
-import com.ojt.toyproject.book.book.BookDto;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class BookingDto {
     private Long seq;
     private Long isbn;
@@ -27,6 +28,7 @@ public class BookingDto {
         this.bookingDatetime = bookingEntity.getBookingDatetime();
         this.isRented = bookingEntity.getIsRented();
     }
+
 
     public BookingEntity byInsert(){
         return BookingEntity

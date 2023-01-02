@@ -1,5 +1,6 @@
 package com.ojt.toyproject.book.bookInfo;
 
+import com.ojt.toyproject.book.category.CategotyEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @ToString
@@ -22,6 +25,8 @@ public class BookInfoEntity {
     private String author;
     private String publisher;
     private Long totalRentCount;
+
+
 
     @Builder
     public BookInfoEntity (Long isbn, int category, String title, String author, String publisher, Long totalRentCount) {

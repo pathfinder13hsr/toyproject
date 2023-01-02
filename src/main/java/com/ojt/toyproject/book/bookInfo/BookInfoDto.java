@@ -54,7 +54,7 @@ public class BookInfoDto {
                 .title(this.title)
                 .author(this.author)
                 .publisher(this.publisher)
-                .totalRentCount(this.totalRentCount)
+                .totalRentCount(bookInfoEntity.getTotalRentCount())
                 .build();
     }
 
