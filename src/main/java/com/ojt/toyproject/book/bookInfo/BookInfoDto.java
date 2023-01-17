@@ -1,5 +1,6 @@
 package com.ojt.toyproject.book.bookInfo;
 
+import com.ojt.toyproject.book.category.CategoryEntity;
 import com.ojt.toyproject.member.MemberEntity;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor //MemberDto는 기본 생성자 없이도 잘 됐는데 왜 얘는 없으면 에러??
 public class BookInfoDto {
     private Long isbn;
-    private int category;
+    private Long category;
     private String title;
     private String author;
     private String publisher;
@@ -25,7 +26,7 @@ public class BookInfoDto {
     @Builder(builderClassName = "byEntity", builderMethodName = "byEntity")
     public BookInfoDto(BookInfoEntity bookInfoEntity) {
         this.isbn = bookInfoEntity.getIsbn();
-        this.category = bookInfoEntity.getCategory();
+        this.category = bookInfoEntity.getCategoryEntity().getSeq();
         this.title = bookInfoEntity.getTitle();
         this.author = bookInfoEntity.getAuthor();
         this.publisher = bookInfoEntity.getPublisher();
@@ -37,7 +38,7 @@ public class BookInfoDto {
         return BookInfoEntity
                 .builder()
                 .isbn(this.isbn)
-                .category(this.category)
+                .categoryEntity(CategoryEntity.builder().seq(this.category).build())
                 .title(this.title)
                 .author(this.author)
                 .publisher(this.publisher)
@@ -50,11 +51,23 @@ public class BookInfoDto {
         return BookInfoEntity
                 .builder()
                 .isbn(bookInfoEntity.getIsbn())
-                .category(this.category)
+                .categoryEntity(CategoryEntity.builder().seq(this.category).build())
                 .title(this.title)
                 .author(this.author)
                 .publisher(this.publisher)
                 .totalRentCount(bookInfoEntity.getTotalRentCount())
+                .build();
+    }
+
+    public BookInfoEntity bySelect() {
+        return BookInfoEntity
+                .builder()
+                .isbn(this.isbn)
+                .categoryEntity(CategoryEntity.builder().seq(this.category).build())
+                .title(this.title)
+                .author(this.author)
+                .publisher(this.publisher)
+                .totalRentCount(this.totalRentCount)
                 .build();
     }
 

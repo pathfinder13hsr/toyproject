@@ -11,4 +11,6 @@ public interface MemberService {
     void updateMember(MemberDto memberDto);
     void deleteMember(String id);
     void deleteMember(List<String> idList);
+
+    MemberDto getMemberById(String id);
 }

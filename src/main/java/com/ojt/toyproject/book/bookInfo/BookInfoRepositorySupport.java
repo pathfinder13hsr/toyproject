@@ -1,7 +1,7 @@
 package com.ojt.toyproject.book.bookInfo;
 
+
 import com.ojt.toyproject.book.book.QBookEntity;
-import com.ojt.toyproject.booking.QBookingEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class BookInfoRepositorySupport {
                 .update(qBookInfoEntity)
                 .set(qBookInfoEntity.totalRentCount, qBookInfoEntity.totalRentCount.add(1))
                 .where(qBookInfoEntity.isbn.eq(
-                        jpaQueryFactory.select(qBookEntity.isbn).from(qBookEntity).where(qBookEntity.seq.eq(bookSeq))
+                        jpaQueryFactory.select(qBookEntity.bookInfoEntity.isbn).from(qBookEntity).where(qBookEntity.seq.eq(bookSeq))
                 ))
                 .execute();
     }

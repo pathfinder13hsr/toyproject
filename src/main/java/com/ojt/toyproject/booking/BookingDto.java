@@ -1,5 +1,7 @@
 package com.ojt.toyproject.booking;
 
+import com.ojt.toyproject.book.bookInfo.BookInfoEntity;
+import com.ojt.toyproject.member.MemberEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +25,8 @@ public class BookingDto {
     @Builder(builderClassName = "byEntity", builderMethodName = "byEntity")
     public BookingDto(BookingEntity bookingEntity) {
         this.seq = bookingEntity.getSeq();
-        this.isbn = bookingEntity.getIsbn();
-        this.memberId = bookingEntity.getMemberId();
+        this.isbn = bookingEntity.getBookInfoEntity().getIsbn();
+        this.memberId = bookingEntity.getMemberEntity().getMemberId();
         this.bookingDatetime = bookingEntity.getBookingDatetime();
         this.isRented = bookingEntity.getIsRented();
     }
@@ -34,23 +36,14 @@ public class BookingDto {
         return BookingEntity
                 .builder()
                 .seq(this.seq)
-                .isbn(this.isbn)
-                .memberId(this.memberId)
+                .bookInfoEntity(BookInfoEntity.builder().isbn(this.isbn).build())
+                .memberEntity(MemberEntity.builder().memberId(this.memberId).build())
                 .bookingDatetime(LocalDateTime.now())
                 .isRented("N")
                 .build();
     }
 
-    public BookingEntity byUpdate(BookingEntity bookingEntity){
-        return BookingEntity
-                .builder()
-                .seq(bookingEntity.getSeq())
-                .isbn(bookingEntity.getIsbn())
-                .memberId(bookingEntity.getMemberId())
-                .bookingDatetime(bookingEntity.getBookingDatetime())
-                .isRented(this.isRented)
-                .build();
-    }
+
 
 
 }

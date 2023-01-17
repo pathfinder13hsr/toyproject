@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<CategotyEntity, Long> {
-    List<CategotyEntity> findAll();
-    CategotyEntity findBySeq(Long seq);
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+    List<CategoryEntity> findAll();
+    CategoryEntity findBySeq(Long seq);
 }

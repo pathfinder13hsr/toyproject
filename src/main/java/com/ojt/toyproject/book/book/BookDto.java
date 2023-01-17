@@ -1,5 +1,6 @@
 package com.ojt.toyproject.book.book;
 
+import com.ojt.toyproject.book.bookInfo.BookInfoEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,7 +21,7 @@ public class BookDto {
     @Builder(builderClassName = "byEntity", builderMethodName = "byEntity")
     public BookDto(BookEntity bookEntity){
         this.seq = bookEntity.getSeq();
-        this.isbn = bookEntity.getIsbn();
+        this.isbn = bookEntity.getBookInfoEntity().getIsbn();
         this.stockNum = bookEntity.getStockNum();
         this.stockDate = bookEntity.getStockDate();
         this.isInStock = bookEntity.getIsInStock();
@@ -30,7 +31,7 @@ public class BookDto {
         return BookEntity
                 .builder()
                 .seq(this.seq)
-                .isbn(this.isbn)
+                .bookInfoEntity(BookInfoEntity.builder().isbn(this.isbn).build())
                 .stockNum(this.stockNum)
                 .stockDate(this.stockDate)
                 .isInStock("Y")
@@ -41,7 +42,7 @@ public class BookDto {
         return BookEntity
                 .builder()
                 .seq(bookEntity.getSeq())
-                .isbn(this.isbn)
+                .bookInfoEntity(BookInfoEntity.builder().isbn(this.isbn).build())
                 .stockNum(this.stockNum)
                 .stockDate(this.stockDate)
                 .isInStock(this.isInStock)

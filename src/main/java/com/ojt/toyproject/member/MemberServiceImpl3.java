@@ -94,4 +94,10 @@ public class MemberServiceImpl3 implements MemberService{
             deleteMember(id);
         }
     }
+
+    @Override
+    public MemberDto getMemberById(String id) {
+        MemberDto memberDto = MemberDto.byEntity().memberEntity(memberRepository.findByMemberId(id)).build();
+        return memberDto;
+    }
 }

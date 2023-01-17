@@ -4,20 +4,33 @@ import com.ojt.toyproject.SearchDto;
 import com.ojt.toyproject.book.book.BookDto;
 import com.ojt.toyproject.book.bookInfo.BookInfoDto;
 import com.ojt.toyproject.book.category.CategoryDto;
+import lombok.extern.slf4j.Slf4j;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class BookController {
     private final BookService bookService;
     private final BookService bookService3;
+    private final BookFeignClient bookFeignClient;
 
-    public BookController(@Qualifier("Impl1") BookService bookService, @Qualifier("Impl3_JPA") BookService bookService3) {
+    public BookController(@Qualifier("Impl1") BookService bookService, @Qualifier("Impl3_JPA") BookService bookService3, BookFeignClient bookFeignClient) {
         this.bookService = bookService;
         this.bookService3 = bookService3;
+        this.bookFeignClient = bookFeignClient;
     }
 
     //도서정보 : book_info, 소장도서 : book, 도서카테고리 : category ->세 테이블 CRUD
@@ -68,6 +81,47 @@ public class BookController {
         return bookDtoList;
     }
 
+    @GetMapping("/books/{seq}")
+    public BookDto getBookBySeq(@PathVariable Long seq){
+//        BookDto bookDto = bookService3.getBook(seq);
+        // getBook안에서 할 일
+        // 1. restTemplate으로 /books 요청
+        // 2. 목록에서 seq에 해당하는 book 찾아서 반환
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:8080")
+                .path("/books")
+                .encode()
+                .build()
+                .toUri();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<List<BookDto>> result = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<BookDto>>() {
+        });
+        List<BookDto> resultBody = result.getBody();
+        BookDto bookDto = null;
+        for (int i = 0; i<resultBody.size(); i++) {
+            if (resultBody.get(i).getSeq().equals(seq)) {
+                bookDto = resultBody.get(i);
+            }
+        }
+
+        return bookDto;
+    }
+
+    @GetMapping("/books/feign/{seq}")
+    public BookDto getBookBySeqWithFeign (@PathVariable Long seq) {
+        List<BookDto> bookDtoList= bookFeignClient.getBooks();
+        BookDto bookDto = null;
+        for (int i = 0; i<bookDtoList.size(); i++) {
+            if (bookDtoList.get(i).getSeq().equals(seq)) {
+                bookDto = bookDtoList.get(i);
+            }
+        }
+        return bookDto;
+    }
+
+
+
     //소장도서 수정
     @PutMapping("/books")
     public void updateBook(@RequestBody BookDto bookDto){
@@ -105,6 +159,20 @@ public class BookController {
     public void deleteCategory(@PathVariable Long seq){
         bookService3.deleteCategory(seq);
     }
+
+
+
+
+//    @Transactional
+//    @Scheduled(fixedRate = 5000)
+//    @SchedulerLock(name = "BookController_scheduleTest", lockAtLeastFor = "4S", lockAtMostFor = "4S")
+//    public void scheduleTest() {
+//        Long seq = Long.valueOf(13);
+//        Long isbn = bookService3.getIsbnBySeq(seq);
+//        log.info("totalRentCount>>>"+bookService3.getBookInfoByIsbn(isbn).getTotalRentCount());
+//
+//        bookService3.addRentCount(seq); // 스케줄러가 실행되는 메서드
+//    }
 
 
 }

@@ -7,8 +7,8 @@ import com.ojt.toyproject.book.book.BookRepository;
 import com.ojt.toyproject.book.book.BookRepositorySupport;
 import com.ojt.toyproject.book.bookInfo.*;
 import com.ojt.toyproject.book.category.CategoryDto;
+import com.ojt.toyproject.book.category.CategoryEntity;
 import com.ojt.toyproject.book.category.CategoryRepository;
-import com.ojt.toyproject.book.category.CategotyEntity;
 import com.ojt.toyproject.booking.BookingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -85,7 +85,7 @@ public class BookServiceImpl3 implements BookService {
         for (BookInfoEntity bookInfoEntity : bookInfoEntityList) {
             Long isbn = bookInfoEntity.getIsbn();
             BookInfoDto bookInfoDto = BookInfoDto.byEntity().bookInfoEntity(bookInfoEntity).build();
-            bookInfoDto.setTotalStockCount(bookRepository.countByIsbn(isbn));
+            bookInfoDto.setTotalStockCount(bookRepository.countByBookInfoEntity(bookInfoEntity));
             bookInfoDto.setRentCount(getRentCountByIsbn(isbn));
             bookInfoDto.setInStockCount(getInStockCountByIsbn(isbn));
             bookInfoDto.setBookingCount(getBookingCountByIsbn(isbn));
@@ -93,6 +93,12 @@ public class BookServiceImpl3 implements BookService {
         }
         return bookInfoDtoList;
 
+    }
+
+    @Override
+    public BookInfoDto getBookInfoByIsbn(Long isbn) {
+        BookInfoDto bookInfoDto = BookInfoDto.byEntity().bookInfoEntity(bookInfoRepository.findByIsbn(isbn)).build();
+        return bookInfoDto;
     }
 
     @Override
@@ -145,7 +151,8 @@ public class BookServiceImpl3 implements BookService {
     @Override
     public void insertBook(BookDto bookDto) {
         Long isbn = bookDto.getIsbn();
-        if(bookRepository.existsByIsbn(isbn)){
+        BookInfoEntity bookInfoEntity = bookInfoRepository.findByIsbn(isbn);
+        if(bookRepository.existsByBookInfoEntity(bookInfoEntity)){
             bookDto.setStockNum(bookRepository.getMaxStockNumByIsbn(isbn)+1);
         } else {
             bookDto.setStockNum(1);
@@ -180,10 +187,10 @@ public class BookServiceImpl3 implements BookService {
 
     @Override
     public List<CategoryDto> getCategoryList() {
-        List<CategotyEntity> categotyEntityList = categoryRepository.findAll();
+        List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
         List<CategoryDto> categoryDtoList = new ArrayList<>();
-        for (CategotyEntity categotyEntity : categotyEntityList) {
-            CategoryDto categoryDto = CategoryDto.byEntity().categotyEntity(categotyEntity).build();
+        for (CategoryEntity categoryEntity : categoryEntityList) {
+            CategoryDto categoryDto = CategoryDto.byEntity().categotyEntity(categoryEntity).build();
             categoryDtoList.add(categoryDto);
         }
         return categoryDtoList;
@@ -191,8 +198,8 @@ public class BookServiceImpl3 implements BookService {
 
     @Override
     public void updateCategory(CategoryDto categoryDto) {
-        CategotyEntity categotyEntity = categoryRepository.findBySeq(categoryDto.getSeq());
-        categoryRepository.save(categoryDto.byUpdate(categotyEntity));
+        CategoryEntity categoryEntity = categoryRepository.findBySeq(categoryDto.getSeq());
+        categoryRepository.save(categoryDto.byUpdate(categoryEntity));
     }
 
     @Override
@@ -214,5 +221,13 @@ public class BookServiceImpl3 implements BookService {
     @Override
     public void changeBookStatusToN(Long seq) {
         bookRepositorySupport.changeBookStatusToN(seq);
+    }
+
+
+
+    //스케줄러 테스트용
+    @Override
+    public Long getIsbnBySeq(Long seq) {
+        return bookRepository.getIsbnBySeq(seq);
     }
 }

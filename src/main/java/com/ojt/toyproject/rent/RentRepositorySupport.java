@@ -33,7 +33,7 @@ public class RentRepositorySupport {
         return jpaQueryFactory
                 .select(Projections.constructor(RentDto.class, qRentEntity))
                 .from(qRentEntity)
-                .where(qRentEntity.memberId.eq(id), qRentEntity.isReturned.eq("N"))
+                .where(qRentEntity.memberEntity.memberId.eq(id), qRentEntity.isReturned.eq("N"))
                 .fetch();
     }
 
@@ -43,7 +43,7 @@ public class RentRepositorySupport {
         return jpaQueryFactory
                 .select(Projections.constructor(RentDto.class, qRentEntity))
                 .from(qRentEntity)
-                .where(qRentEntity.memberId.eq(id), qRentEntity.isReturned.eq("Y"))
+                .where(qRentEntity.memberEntity.memberId.eq(id), qRentEntity.isReturned.eq("Y"))
                 .fetch();
     }
 }

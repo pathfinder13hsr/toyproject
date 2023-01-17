@@ -13,6 +13,8 @@ import javax.persistence.Id;
 @Entity(name = "member")
 @DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberEntity {
     @Id
     @Column(name="id")
@@ -20,10 +22,4 @@ public class MemberEntity {
     private String name;
     private String phone;
 
-    @Builder
-    public MemberEntity(String id, String name, String phone) {
-        this.memberId = id;
-        this.name = name;
-        this.phone = phone;
-    }
 }

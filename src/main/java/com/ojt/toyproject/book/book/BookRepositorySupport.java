@@ -40,10 +40,11 @@ public class BookRepositorySupport {
 
     }
 
+
     public BooleanExpression isSearchable(String searchType, String keyword) {
         if (searchType != null && keyword != null) {
             if (searchType.equals("isbn")) {
-                return QBookEntity.bookEntity.isbn.eq(Long.valueOf(keyword));
+                return QBookEntity.bookEntity.bookInfoEntity.isbn.eq(Long.valueOf(keyword));
             } else if(searchType.equals("seq")){
                 return QBookEntity.bookEntity.seq.eq(Long.valueOf(keyword));
             } else if (searchType.equals("stockDate")) {

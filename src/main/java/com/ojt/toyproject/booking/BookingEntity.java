@@ -1,18 +1,14 @@
 package com.ojt.toyproject.booking;
 
 import com.ojt.toyproject.book.book.BookEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.ojt.toyproject.book.bookInfo.BookInfoEntity;
+import com.ojt.toyproject.member.MemberEntity;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,24 +17,28 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
-    private Long isbn;
-    private String memberId;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime bookingDatetime;
     private String isRented;
 
-    @Builder
-    public BookingEntity(Long seq, Long isbn, String memberId, LocalDateTime bookingDatetime, String isRented) {
-        this.seq = seq;
-        this.isbn = isbn;
-        this.memberId = memberId;
-        this.bookingDatetime = bookingDatetime;
-        this.isRented = isRented;
-    }
+    @ManyToOne
+    @JoinColumn(name = "isbn")
+    private BookInfoEntity bookInfoEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "memberId")
+    private MemberEntity memberEntity;
+
+
+
+
 
 
 

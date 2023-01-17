@@ -2,6 +2,11 @@ package com.ojt.toyproject.booking;
 
 import com.ojt.toyproject.SearchDto;
 import com.ojt.toyproject.book.BookService;
+import com.ojt.toyproject.book.bookInfo.BookInfoDto;
+import com.ojt.toyproject.book.bookInfo.BookInfoEntity;
+import com.ojt.toyproject.member.MemberDto;
+import com.ojt.toyproject.member.MemberEntity;
+import com.ojt.toyproject.member.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,19 +22,24 @@ public class BookingServiceImpl3 implements BookingService{
     private final BookService bookService3;
     private final BookingRepositorySupport bookingRepositorySupport;
     private final BookingMapper bookingMapper;
+    private final MemberService memberService3;
 
-    public BookingServiceImpl3(BookingRepository bookingRepository, @Qualifier("Impl3_JPA") BookService bookService3, BookingRepositorySupport bookingRepositorySupport, BookingMapper bookingMapper) {
+
+    public BookingServiceImpl3(BookingRepository bookingRepository, @Qualifier("Impl3_JPA") BookService bookService3, BookingRepositorySupport bookingRepositorySupport, BookingMapper bookingMapper, @Qualifier("Impl3_JPA") MemberService memberService3) {
         this.bookingRepository = bookingRepository;
         this.bookService3 = bookService3;
         this.bookingRepositorySupport = bookingRepositorySupport;
         this.bookingMapper = bookingMapper;
+        this.memberService3 = memberService3;
     }
 
     @Override
     public void makeBooking(BookingDto bookingDto) {
         int availableCountByIsbn = bookService3.getInStockCountByIsbn(bookingDto.getIsbn());
+        MemberEntity memberEntity = memberService3.getMemberById(bookingDto.getMemberId()).bySelect();
+        BookInfoEntity bookInfoEntity = bookService3.getBookInfoByIsbn(bookingDto.getIsbn()).bySelect();
         log.info("availableCountByIsbn>>>"+availableCountByIsbn);
-        if (!bookingRepository.existsByIsbnAndMemberId(bookingDto.getIsbn(), bookingDto.getMemberId())){ // 예약 테이블에 동일 isbn, memberId가 없고
+        if (!bookingRepository.existsByBookInfoEntityAndMemberEntity(bookInfoEntity, memberEntity)){ // 예약 테이블에 동일 isbn, memberId가 없고
             if (availableCountByIsbn == 0) { //대출 가능수량이 0이면
                 bookingRepository.save(bookingDto.byInsert()); // 예약 신청 가능
             } else {

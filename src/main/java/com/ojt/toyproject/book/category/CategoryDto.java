@@ -13,18 +13,18 @@ public class CategoryDto {
     private Long seq;
     private String categoryName;
 
-    private BookInfoDto bookInfoDto;
+//    private BookInfoDto bookInfoDto;
 
     @Builder(builderClassName = "byEntity", builderMethodName = "byEntity")
-    public CategoryDto(CategotyEntity categotyEntity) {
+    public CategoryDto(CategoryEntity categotyEntity) {
         this.seq = categotyEntity.getSeq();
         this.categoryName = categotyEntity.getCategoryName();
     }
 
 
 
-    public CategotyEntity byInsert() {
-        return CategotyEntity
+    public CategoryEntity byInsert() {
+        return CategoryEntity
                 .builder()
                 .seq(this.seq)
                 .categoryName(this.categoryName)
@@ -32,8 +32,8 @@ public class CategoryDto {
     }
 
 
-    public CategotyEntity byUpdate(CategotyEntity categotyEntity) {
-        return CategotyEntity
+    public CategoryEntity byUpdate(CategoryEntity categotyEntity) {
+        return CategoryEntity
                 .builder()
                 .seq(categotyEntity.getSeq())
                 .categoryName(this.categoryName)

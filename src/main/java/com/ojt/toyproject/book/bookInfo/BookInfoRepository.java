@@ -17,4 +17,5 @@ public interface BookInfoRepository extends JpaRepository<BookInfoEntity, Long>,
 //    Page<BookInfoEntity> findAll(Pageable pageable);
     Page<BookInfoEntity> findAll(Specification<BookInfoEntity> spec, Pageable pageable);
 
+
 }

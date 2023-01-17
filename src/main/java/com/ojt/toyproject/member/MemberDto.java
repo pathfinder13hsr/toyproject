@@ -25,7 +25,7 @@ public class MemberDto {
     public MemberEntity byInsert() {
         return MemberEntity
                 .builder()
-                .id(this.id)
+                .memberId(this.id)
                 .name(this.name)
                 .phone(this.phone)
                 .build();
@@ -34,7 +34,16 @@ public class MemberDto {
     public MemberEntity byUpdate(MemberEntity memberEntity) {
         return MemberEntity
                 .builder()
-                .id(memberEntity.getMemberId())
+                .memberId(memberEntity.getMemberId())
+                .name(this.name)
+                .phone(this.phone)
+                .build();
+    }
+
+    public MemberEntity bySelect() {
+        return MemberEntity
+                .builder()
+                .memberId(this.id)
                 .name(this.name)
                 .phone(this.phone)
                 .build();

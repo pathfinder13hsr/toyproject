@@ -10,6 +10,7 @@ import java.util.List;
 public interface BookService {
     void insertBookInfo(BookInfoDto bookInfoDto);
     List<BookInfoDto> getBookInfoList(SearchDto searchDto);
+    BookInfoDto getBookInfoByIsbn(Long isbn);
     void updateBookInfo(BookInfoDto bookInfoDto);
     int getRentCountByIsbn(Long isbn);
     int getInStockCountByIsbn(Long isbn);
@@ -31,5 +32,8 @@ public interface BookService {
     void addRentCount(Long bookSeq);
     void changeBookStatusToY(Long seq);
     void changeBookStatusToN(Long seq);
+
+
+    public Long getIsbnBySeq(Long seq);
 
 }

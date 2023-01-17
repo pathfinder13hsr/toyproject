@@ -1,9 +1,6 @@
 package com.ojt.toyproject.booking;
 
 import com.ojt.toyproject.SearchDto;
-import com.ojt.toyproject.book.book.BookDto;
-import com.ojt.toyproject.book.book.QBookEntity;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,9 +37,9 @@ public class BookingRepositorySupport {
     public BooleanExpression isSearchable(String searchType, String keyword) {
         if (searchType != null && keyword != null) {
             if (searchType.equals("isbn")) {
-                return QBookingEntity.bookingEntity.isbn.eq(Long.valueOf(keyword));
+                return QBookingEntity.bookingEntity.bookInfoEntity.isbn.eq(Long.valueOf(keyword));
             } else if (searchType.equals("memberId")) {
-                return QBookingEntity.bookingEntity.memberId.eq(keyword);
+                return QBookingEntity.bookingEntity.memberEntity.memberId.eq(keyword);
             } else if (searchType.equals("isRented")) {
                 return QBookingEntity.bookingEntity.isRented.eq(keyword);
             } else {

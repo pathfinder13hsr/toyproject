@@ -44,6 +44,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public BookInfoDto getBookInfoByIsbn(Long isbn) {
+        return null;
+    }
+
+    @Override
     public void updateBookInfo(BookInfoDto bookInfoDto) {
         bookMapper.updateBookInfo(bookInfoDto);
     }
@@ -152,5 +157,10 @@ public class BookServiceImpl implements BookService{
     @Override
     public void changeBookStatusToN(Long seq) {
         bookMapper.changeBookStatusToN(seq);
+    }
+
+    @Override
+    public Long getIsbnBySeq(Long seq) {
+        return null;
     }
 }
