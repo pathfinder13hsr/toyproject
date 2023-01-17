@@ -36,6 +36,7 @@ public class StudyClass {
 
     public static List<StudyDto> entityListToDtoList (List<StudyEntity> studyEntityList) {
         return studyEntityList.stream().map(entity -> new ModelMapper().map(entity, StudyDto.class)).collect(Collectors.toList());
+        //리스트로 넘기고 받을 때 스트림으로 처리할 수 있음, 다만 addMappings 하기가 곤란함, ModelMapper는 필드명이 거의 동일해 개별 지정을 많이 해주지 않아도 될 때 효용이 있는듯
     }
 
 
